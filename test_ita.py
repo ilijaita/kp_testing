@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By       
 from selenium.webdriver.support import expected_conditions as EC, wait
 import time
+import re
 
 opcije = ChromeOptions()
 opcije.add_argument("--log-level=3")
@@ -31,11 +32,15 @@ def log_in_logout():
     time.sleep(3)
 
     email.click()
-    email.send_keys("itilija2@gmail.com")
+    email.send_keys("ilijaitacademy@gmail.com")
     password.click()
     password.send_keys("Miljevic2005")
     klik.click()
     browser.save_screenshot("kp_login_.png")
+    time.sleep(3)
+    log_out = browser.find_element_by_link_text("Izlogujte se")
+    log_out.click()
+    browser.save_screenshot("kp_log_out.png")
     time.sleep(3)
 
     browser.close()
@@ -64,7 +69,7 @@ def postavi_oglas():
     time.sleep(3)
 
     email.click()
-    email.send_keys("itilija2@gmail.com")
+    email.send_keys("ilijaitacademy@gmail.com")
     password.click()
     password.send_keys("Miljevic2005")
     klik.click()
@@ -78,7 +83,7 @@ def postavi_oglas():
 
     naziv_oglasa = browser.find_element_by_id("data[group_suggest_text]")
     naziv_oglasa.click()
-    naziv_oglasa.send_keys("iPhone 13 Pro Max")
+    naziv_oglasa.send_keys("iPhone 7")
     browser.save_screenshot("kp_new_.png")
     time.sleep(3)
 
@@ -99,7 +104,7 @@ def postavi_oglas():
 
     cena = browser.find_element_by_id("price_number")
     cena.click()
-    cena.send_keys("1200")
+    cena.send_keys("300")
     time.sleep(3)
 
     valuta = browser.find_element_by_id("currency_eur")
@@ -133,9 +138,12 @@ def postavi_oglas():
     postavi = browser.find_element_by_css_selector('[value="Postavite oglas"]')
     postavi.click()
     browser.save_screenshot("kp_postavi_.png")
+    time.sleep(3)
     log_out = browser.find_element_by_link_text("Izlogujte se")
     log_out.click()
     time.sleep(3)
+    browser.close()
+
 
 def ulazak_u_oglas_i_brisanje():
 
@@ -159,7 +167,7 @@ def ulazak_u_oglas_i_brisanje():
     time.sleep(3)
 
     email.click()
-    email.send_keys("itilija2@gmail.com")
+    email.send_keys("ilijaitacademy@gmail.com")
     password.click()
     password.send_keys("Miljevic2005")
     klik.click()
@@ -169,19 +177,26 @@ def ulazak_u_oglas_i_brisanje():
     moji_oglasi.click()
     browser.save_screenshot("kp_oglasi.png")
     time.sleep(3)
-    telefon = browser.find_element_by_link_text("iPhone 13 Pro Max")
+    telefon = browser.find_element_by_link_text("iPhone 7")
     telefon.click()
     browser.save_screenshot("kp_oglas.png")
     brisanje = browser.find_element_by_link_text("Obriši")
     brisanje.click()
     browser.implicitly_wait(5)
     browser.save_screenshot("kp_brisanje.png")
-    brisanje1 = browser.find_element_by_css_selector('[value="renew"]')
-    brisanje1.click()
-    browser.save_screenshot("kp_brisanje1.png")
-    brisanje2 = browser.find_element_by_name("submit[delete]")
-    brisanje2.click
-    browser.save_screenshot("kp_brisanje2.png")
+    def frame_switch(css_selector):
+        browser.switch_to.frame(browser.find_element_by_css_selector(css_selector))
+
+    browser.switch_to.frame(browser.find_element(By.CLASS_NAME, 'kpBoxIframe'))
+    element = browser.find_element(By.ID, 'data[reason]sold').click()
     time.sleep(3)
     
+    brisanje2 = browser.find_element_by_name("submit[delete]")
+    brisanje2.click()
+    browser.save_screenshot("kp_brisanje2.png")
+    browser.implicitly_wait(50)
+    browser.save_screenshot("kp_brisanje3.png")
+    time.sleep(3)
+    
+
 ulazak_u_oglas_i_brisanje()
